@@ -10,6 +10,7 @@ public class SwiftFormatter: CodeFormatter {
             "struct",
             "enum",
             "protocol",
+            "Protocol",
             "extension",
             "return",
             "throw",
