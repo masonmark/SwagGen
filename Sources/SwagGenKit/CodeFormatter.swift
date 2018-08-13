@@ -258,6 +258,9 @@ public class CodeFormatter {
         context["responseSchemas"] = responseSchemas
         context["hasResponseModels"] = !operation.responses.filter { $0.response.value.schema != nil }.isEmpty
 
+        if let path = context["path"] as? String {
+            context["pathWithPlaceholdersConvertedToSwiftStringLiteralWithInterpolation"] = path.makePathWithPlaceholdersConvertedToSwiftStringLiteralWithInterpolation(context: context)
+        }
         return context
     }
 

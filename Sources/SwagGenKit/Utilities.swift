@@ -94,6 +94,32 @@ extension String {
     func upperCamelCased() -> String {
         return camelCased().mapFirstChar { $0.uppercased() }
     }
+    
+    /**
+     Given a Swagger path string like "/foo/{customer_name}", return a path string like "/foo/\(customerName)". This is used in initializers for API requests ("operations"), so that we don't have to do string placeholder expansion in the template, which does it in the generated code and therefore pollutes the generated code output with logic that could be done at generate time. (This modification was added for soracom-sdk-swift.)
+    */
+    func makePathWithPlaceholdersConvertedToSwiftStringLiteralWithInterpolation(context: Context) -> String {
+        
+        guard let pathParams = context["pathParams"] as? [[String:Any]] else {
+            
+            return self
+        }
+
+        var result = self
+
+        for param in pathParams {
+            
+            guard
+                let value = (param["value"] as? String),
+                let encodedValue = (param["encodedValue"] as? String)
+            else {
+                return self
+            }
+            result = result.replacingOccurrences(of: "{\(value)}", with: "\\(\(encodedValue))")
+        }
+        //print("\(self)->\(result)")
+        return result;
+    }
 }
 
 extension Dictionary {
