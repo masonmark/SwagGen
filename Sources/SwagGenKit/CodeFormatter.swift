@@ -197,6 +197,7 @@ public class CodeFormatter {
         context["method"] = operation.method.rawValue.uppercased()
         context["path"] = operation.path
         context["description"] = operation.description
+        context["summary"] = operation.summary
         context["tag"] = operation.tags.first
         context["tags"] = operation.tags
 
